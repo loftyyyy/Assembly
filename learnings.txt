@@ -2,7 +2,19 @@ MASM32
 
 MASM is short for Microsoft Macro Assembler. The 32 stands for its architecture which is 32bits or x86.
 
-In a MASM32, we have what we call a directive, it's what tells the compiler which section we are working on. We have a .data directive and a .code directive
+In a MASM32, we have what we call a directive, it's what tells the compiler which section we are working on. We have a .data directive and a .code directive.
+
+Directives:
+
+    .data directive, stores variables and any other memory values. 
+
+    .code directive, as the name implies stores instructions to the machine. It tells MASM to
+    group the statements following it into a special section of memory reserved
+    for machine instructions.
+
+Registers:
+
+    So in a 32 bit architecture, we have a 32 bit registers. Registers are 
 
 
 
