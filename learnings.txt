@@ -1,0 +1,8 @@
+MASM32
+
+MASM is short for Microsoft Macro Assembler. The 32 stands for its architecture which is 32bits or x86.
+
+In a MASM32, we have what we call a directive, it's what tells the compiler which section we are working on. We have a .data directive and a .code directive
+
+
+
