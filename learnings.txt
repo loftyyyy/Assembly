@@ -4,9 +4,44 @@ MASM is short for Microsoft Macro Assembler. The 32 stands for its architecture 
 
 In a MASM32, we have what we call a directive, it's what tells the compiler which section we are working on. We have a .data directive and a .code directive.
 
+
+Computer Architecture:
+    
+    Intel CPU family is generally classified as a Von Neumman architecture machine.
+    Von Neumann computer system consists of three main building blocks: the CPU, Memory, and IO devices.
+    These three components are interconnected via the system bus (consisting of the address, data, and control buses).
+
+
+Identifiers:
+
+    MASM identifiers may begin with a dollar sign ($), underscore (_), or an alphabetic
+    character and may be followed by zero or more alphanumeric, dollar sign, or under-
+    score characters. An identifier may not consist of a $ character by itself (this has a
+    special meaning to MASM).
+
+    e.g:
+        $fun, _fun, fun, or fun1
+
 Directives:
 
     .data directive, stores variables and any other memory values. 
+
+    MASM Data Decleration Directives
+
+    | Directive | Size (bytes) | Meaning / Usage                                                   |
+    | --------- | ------------ | ----------------------------------------------------------------- |
+    | `DB`      | 1            | Define **Byte** (8-bit) — characters or small integers            |
+    | `DW`      | 2            | Define **Word** (16-bit) — short integers                         |
+    | `DD`      | 4            | Define **Doubleword** (32-bit) — integers or 32-bit addresses     |
+    | `DT`      | 10           | Define **Ten Bytes (TBYTE)** — 80-bit values for x87 FPU          |
+    | `REAL4`   | 4            | Define **single-precision float (32-bit)**                        |
+    | `REAL8`   | 8            | Define **double-precision float (64-bit)**                        |
+    | `REAL10`  | 10           | Define **extended-precision float (80-bit)**                      |
+    | `DUP`     | —            | Repeat initializer or create arrays (e.g., `DB 10 DUP(0)`)        |
+    | `LABEL`   | —            | Define a label with a specific data type (e.g., `arr LABEL BYTE`) |
+
+
+
 
     .code directive, as the name implies stores instructions to the machine. It tells MASM to
     group the statements following it into a special section of memory reserved
@@ -14,7 +49,59 @@ Directives:
 
 Registers:
 
-    So in a 32 bit architecture, we have a 32 bit registers. Registers are 
+    Within the CPU, special locations known as the registers are used to manipulate data.
+    So in a 32 bit architecture, we have a 32 bit registers. 
+    The 32bit CPU registers can be broken into four categories:
+        * General Purpose Registers (GPR) i.e EAX, EBX, ECX, and EDX
+        * Segment Registers 
+        * Pointer and Index Registers
+        * Control Registers
+    Each register has it's own role.
+    So each register can only store 32 bits of data or 4 bytes of data. To give you an example, a character is 1 byte.
+    So we can only store 4 characters in a single register. But then again, how can we store "Hello world" when it's more than 4 characters? What we do is we put it on the .data section, and reference it to 
+    the register. So that the register only stores the memory address of the reference.
+    1 byte = 8bits
+
+
+MASM32 Data Types
+
+    | **Type**       | **Size (bytes)** | **Description**                                                                           |
+    | -------------- | ---------------- | ----------------------------------------------------------------------------------------- |
+    | **byte (db)**  | 1                | 1-byte memory operand, unsigned (generic integer or character).                           |
+    | **sbyte**      | 1                | 1-byte memory operand, signed integer (range −128 to +127).                               |
+    | **word (dw)**  | 2                | 2-byte memory operand, unsigned (generic integer).                                        |
+    | **sword**      | 2                | 2-byte memory operand, signed integer (range −32,768 to +32,767).                         |
+    | **dword (dd)** | 4                | 4-byte memory operand, unsigned (generic integer or pointer).                             |
+    | **sdword**     | 4                | 4-byte memory operand, signed integer (range −2,147,483,648 to +2,147,483,647).           |
+    | **qword (dq)** | 8                | 8-byte memory operand, unsigned (used rarely in 32-bit MASM).                             |
+    | **sqword**     | 8                | 8-byte memory operand, signed (used rarely in 32-bit MASM).                               |
+    | **tbyte (dt)** | 10               | 10-byte memory operand, unsigned (used for 80-bit extended precision floats or BCD).      |
+    | **real4**      | 4                | 4-byte single-precision floating-point memory operand (IEEE 754 `float`).                 |
+    | **real8**      | 8                | 8-byte double-precision floating-point memory operand (IEEE 754 `double`).                |
+    | **real10**     | 10               | 10-byte extended-precision floating-point memory operand (x87 FPU `long double`).         |
+    | **proc**       | N/A              | Defines a **procedure label** using the `PROC` directive (marks the start of a function). |
+    | **label:**     | N/A              | Defines a **statement label** (identifier immediately followed by `:`).                   |
+    | **constant**   | Varies           | Defines a **constant** using `=` or `EQU` directive (no memory reserved).                 |
+    | **text**       | N/A              | Defines **textual substitutions** (macros or symbolic names) using `TEXTEQU`.             |
+
+
+32-bit Register Layout
+
+    | 32-bit Register | 16-bit (Lower Half) | 8-bit High | 8-bit Low | Description                                           |
+    | --------------- | ------------------- | ---------- | --------- | ----------------------------------------------------- |
+    | **EAX**         | **AX**              | **AH**     | **AL**    | Accumulator (used in arithmetic, I/O, etc.)           |
+    | **EBX**         | **BX**              | **BH**     | **BL**    | Base register (often used as base pointer for memory) |
+    | **ECX**         | **CX**              | **CH**     | **CL**    | Counter register (used in loops/shifts)               |
+    | **EDX**         | **DX**              | **DH**     | **DL**    | Data register (used for division/multiplication, I/O) |
+    | **ESI**         | **SI**              | —          | —         | Source index for string/memory operations             |
+    | **EDI**         | **DI**              | —          | —         | Destination index for string/memory operations        |
+    | **EBP**         | **BP**              | —          | —         | Base pointer (used for stack frames/local variables)  |
+    | **ESP**         | **SP**              | —          | —         | Stack pointer (points to top of stack)                |
+
+Notes:
+    When creating a string in the .data section, always end it with a 0. Or a null-terminated string.
+
+
 
 
 
