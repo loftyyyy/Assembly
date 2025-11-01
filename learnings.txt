@@ -100,6 +100,11 @@ MASM32 Data Types
 
 Notes:
     When creating a string in the .data section, always end it with a 0. Or a null-terminated string.
+    Learn about movsx and movzx
+
+
+
+
 
 
 
