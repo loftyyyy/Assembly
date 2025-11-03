@@ -98,15 +98,14 @@ MASM32 Data Types
     | **EBP**         | **BP**              | —          | —         | Base pointer (used for stack frames/local variables)  |
     | **ESP**         | **SP**              | —          | —         | Stack pointer (points to top of stack)                |
 
+
+
+FLAGS
+
+
+
 Notes:
     When creating a string in the .data section, always end it with a 0. Or a null-terminated string.
-    Learn about movsx and movzx
-
-
-
-
-
-
-
-
+    Learn about movsx and movzx.
+    eax is conventionally USED to return integers. This is a standard practice in many calling conventions, which define how functions pass arguments and return values.
 
